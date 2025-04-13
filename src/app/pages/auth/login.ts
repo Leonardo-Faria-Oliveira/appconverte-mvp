@@ -6,11 +6,12 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { RippleModule } from 'primeng/ripple';
+import { ButtonComponent } from '../ui/button/button.component';
 
 @Component({
     selector: 'app-login',
     standalone: true,
-    imports: [ButtonModule, CheckboxModule, InputTextModule, PasswordModule, FormsModule, RouterModule, RippleModule],
+    imports: [ButtonComponent, CheckboxModule, InputTextModule, PasswordModule, FormsModule, RouterModule, RippleModule],
     template: `
         <div class="bg-surface-50 dark:bg-surface-950 flex items-center justify-center min-h-screen min-w-[100vw] overflow-hidden">
             <div class="flex flex-col items-center justify-center">
@@ -36,7 +37,7 @@ import { RippleModule } from 'primeng/ripple';
                                 </div>
                                 <span class="font-medium no-underline ml-2 text-right cursor-pointer ">Esqueci minha senha</span>
                             </div>
-                            <p-button [style]="{ background: '#8896f5', border: 'none' }" label="Entrar" styleClass="w-full" severity="info" routerLink="/"></p-button>
+                            <base-button label="Acessar" routerLink="/"></base-button>                        
                         </div>
                     </div>
                 </div>
