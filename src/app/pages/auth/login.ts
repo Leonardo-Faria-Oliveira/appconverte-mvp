@@ -15,8 +15,8 @@ import { PasswordInputComponent } from '../ui/form/password-input/password-input
     standalone: true,
     imports: [ButtonComponent, TextInputComponent, PasswordInputComponent, CheckboxModule, InputTextModule, PasswordModule, FormsModule, RouterModule, RippleModule],
     template: `
-        <div class="bg-surface-50 dark:bg-surface-950 flex items-center justify-center min-h-screen min-w-[100vw] overflow-hidden">
-            <div class="flex flex-col items-center justify-center">
+        <main class="bg-surface-50 dark:bg-surface-950 flex items-center justify-center min-h-screen min-w-[100vw] overflow-hidden">
+            <section class="flex flex-col items-center justify-center">
                 <div style="padding: 0.3rem;">
                     <div style="box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.2);" class="w-full bg-surface-0 dark:bg-surface-900 py-20 px-8 sm:px-20" >
                         <div class="text-center mb-8">
@@ -47,20 +47,24 @@ import { PasswordInputComponent } from '../ui/form/password-input/password-input
                                 ></password-input>
                             </div>
                             
-
-                            <div class="flex items-center justify-between mt-2 mb-8 gap-8">
-                                <div class="flex items-center">
+                            <a href="/auth/forgot-password" class="font-medium no-underline ml-2 text-right cursor-pointer ">Esqueci minha senha</a>
+                            <!-- <div class="flex items-center justify-between mt-2 mb-8 gap-8"> -->
+                                <!-- <div class="flex items-center">
                                     <p-checkbox [(ngModel)]="checked" id="rememberme1" binary class="mr-2"></p-checkbox>
                                     <label for="rememberme1">Lembrar me</label>
-                                </div>
-                                <span class="font-medium no-underline ml-2 text-right cursor-pointer ">Esqueci minha senha</span>
-                            </div>
-                            <base-button label="Acessar" routerLink="/"></base-button>                        
+                                </div> -->
+                                
+                            <!-- </div> -->
+                            <base-button label="Acessar" routerLink="/"></base-button>     
+                            <a class="font-medium ml-2 text-center cursor-pointer underline" href="/auth/register">
+                                <span >Cadastre-se agora</span>
+                            </a>
+                   
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            </section>
+        </main>
     `
 })
 export class Login {
