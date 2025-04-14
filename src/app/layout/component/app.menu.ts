@@ -29,7 +29,7 @@ export class AppMenu {
                         routerLink: ['/'] 
                     },
                     { 
-                        label: 'Notificações', 
+                        label: 'Nova notificação', 
                         icon: 'pi pi-fw pi-bell', 
                         routerLink: ['/notifications'] 
                     },

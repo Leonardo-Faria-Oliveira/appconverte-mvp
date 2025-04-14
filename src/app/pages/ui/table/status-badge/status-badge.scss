@@ -1,0 +1,26 @@
+.badge{
+
+    padding: 5px;
+    border-radius: 5px;
+
+}
+
+.badge-success{
+
+    background-color: var(--success-bg);
+    color: var(--success-text);
+}
+
+.badge-info{
+
+
+    background-color: var(--info-bg);
+    color: var(--info-text);
+}
+
+.badge-error{
+    
+
+    background-color: var(--error-bg);
+    color: var(--error-text);
+}

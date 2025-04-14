@@ -43,7 +43,7 @@ import { CommonModule } from '@angular/common';
                                 <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">2</div>
                             </div>
                             <div class="flex items-center justify-center bg-red-100 dark:bg-red-400/10 rounded-border" style="width: 2.5rem; height: 2.5rem">
-                                <i class="pi pi-dollar text-red-500 !text-xl"></i>
+                                <i class="pi pi-times text-red-500 !text-xl"></i>
                             </div>
                         </div>
                     </div>
