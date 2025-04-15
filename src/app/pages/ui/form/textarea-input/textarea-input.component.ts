@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TextareaModule } from 'primeng/textarea';
 
 @Component({
@@ -8,7 +8,9 @@ import { TextareaModule } from 'primeng/textarea';
         <textarea 
         pTextarea 
         [id]="id" 
+        [defaultValue]="value"
         rows="4"
+        (input)="onChange($event)"
         [style]="{ height: '150px' }"
         ></textarea>
     `,
@@ -19,5 +21,15 @@ export class TextareaInputComponent {
 
   @Input() id: string = '0'; 
 
+  @Output() valueEmitter = new EventEmitter<string>();
   
+  public value: string = '';
+
+  onChange(value: Event){
+    const inputElement = value.target as HTMLInputElement;
+    this.value = inputElement.value;
+    this.valueEmitter.emit(this.value);
+  }
 }
+
+

@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
@@ -9,6 +9,8 @@ import { RippleModule } from 'primeng/ripple';
 import { ButtonComponent } from '../ui/button/button.component';
 import { TextInputComponent } from '../ui/form/text-input/text-input.component';
 import { PasswordInputComponent } from '../ui/form/password-input/password-input.component';
+import { IAuthService } from '../service/auth/auth.interface';
+import { AuthService } from '../service/auth/auth.service';
 
 @Component({
     selector: 'app-login',
@@ -28,12 +30,12 @@ import { PasswordInputComponent } from '../ui/form/password-input/password-input
                         <div class="flex flex-col gap-6">
                             <div>
                                 <label for="emailLogin" class="block text-surface-900 dark:text-surface-0 font-medium text-xl mb-2">Email</label>
-                                <base-text-input 
+                                <base-text-input
+                                (valueEmitter)="setEmail($event)" 
                                 id="emailLogin"
                                 type="email"
                                 placeholder="Preencha com seu email" 
                                 focusColor="var(--primary-color)"
-                                [(ngModel)]="email"
                                 ></base-text-input>
                             </div>
                             
@@ -41,9 +43,9 @@ import { PasswordInputComponent } from '../ui/form/password-input/password-input
                                 <label for="password1" class="block text-surface-900 dark:text-surface-0 font-medium text-xl mb-2">Senha</label>
                                 <password-input
                                 id="passwordLogin"
+                                (passwordEmitter)="setPassword($event)"
                                 placeholder="Preencha com sua senha"
                                 focusColor="red"
-                                [(ngModel)]="password"
                                 ></password-input>
                             </div>
                             
@@ -55,7 +57,7 @@ import { PasswordInputComponent } from '../ui/form/password-input/password-input
                                 </div> -->
                                 
                             <!-- </div> -->
-                            <base-button label="Acessar" routerLink="/"></base-button>     
+                            <base-button (clickEmitter)="login()" label="Acessar" routerLink="/"></base-button>     
                             <a class="font-medium ml-2 text-center cursor-pointer underline" href="/auth/register">
                                 <span >Cadastre-se agora</span>
                             </a>
@@ -68,9 +70,26 @@ import { PasswordInputComponent } from '../ui/form/password-input/password-input
     `
 })
 export class Login {
+
+    constructor(private readonly _service: AuthService, private router:Router) {}
+
     email: string = '';
 
     password: string = '';
 
     checked: boolean = false;
+
+    setEmail(email: string) {
+        this.email = email;
+    }
+
+    setPassword(password: string) {
+        this.password = password;
+    }
+
+    public async login(){
+        await this._service.login({email: this.email, password:this.password} as Login )
+        this.router.navigate(['/']);
+    }
+
 }

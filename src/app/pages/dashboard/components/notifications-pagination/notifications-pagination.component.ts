@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { TableModule } from 'primeng/table';
-import { Notification, NotificationService, NotificationStatus } from '../../../service/notification.service';
+import { NotificationService } from '../../../service/notifications/notification.service';
 import { StatusBadgeComponent } from "../../../ui/table/status-badge/status-badge";
+import { Notification ,NotificationStatus } from '../../../models/notification';
 
 export interface NotificationViewModel {
 	id?: string;
@@ -51,7 +52,6 @@ export interface NotificationViewModel {
 			</p-table>
 		</div>
           `,
-  styleUrl: './notifications-pagination.component.scss'
 })
 
 

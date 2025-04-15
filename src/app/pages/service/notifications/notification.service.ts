@@ -1,23 +1,18 @@
 import { Injectable } from '@angular/core';
-
-
-
-export type NotificationStatus = 'success' | 'error' | 'sent';
-
-export interface Notification {
-  id?: string;
-  title?: string;
-  content?: string;
-  status?: NotificationStatus;
-  date?: Date;
-}
+import { Notification } from '../../models/notification';
+import { INotificationService } from './notification.interface';
+import { HttpClient } from '../httpClient/httpClient';
 
 @Injectable({
   providedIn: 'root'
 })
-export class NotificationService {
+export class NotificationService implements INotificationService {
 
-  constructor() { }
+  constructor(private client: HttpClient) {}
+
+  markAsRead: (notificationId: string) => Promise<void> = async() => {};
+  deleteNotification: (notificationId: string) => Promise<void>= async() => {};
+  sendNotification: (notification: Notification) => Promise<void>= async() => {};
 
   async getNotifications(): Promise<Notification[]> {
 

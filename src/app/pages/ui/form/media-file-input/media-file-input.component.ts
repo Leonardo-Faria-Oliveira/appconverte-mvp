@@ -6,7 +6,6 @@ import { Component } from '@angular/core';
   template: `
       <input type="file" accept="image/*"  />
     `,
-  styleUrl: './media-file-input.component.scss'
 })
 export class MediaFileInputComponent {
 

@@ -1,4 +1,4 @@
-import { Component, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -6,6 +6,7 @@ import { TextareaModule } from 'primeng/textarea';
 import { TextInputComponent } from '../../../ui/form/text-input/text-input.component';
 import { TextareaInputComponent } from '../../../ui/form/textarea-input/textarea-input.component';
 import { ButtonComponent } from "../../../ui/button/button.component";
+import { Notification } from '../../../models/notification';
 
 @Component({
 	selector: 'create-notification-form',
@@ -17,6 +18,7 @@ import { ButtonComponent } from "../../../ui/button/button.component";
 					<label for="title" class="block text-surface-900 dark:text-surface-0 font-medium text-xl mb-2">Título</label>
 					<base-text-input 
 					id="title" 
+					(valueEmitter)="setTitle($event)"
 					type="text" 
 					placeholder="Exemplo: Promoção de fim de ano chegando" 
 					focusColor="var(--primary-color)" 
@@ -27,32 +29,45 @@ import { ButtonComponent } from "../../../ui/button/button.component";
 				<div class="gap-2 w-full">
 					<label for="content" class="block text-surface-900 dark:text-surface-0 font-medium text-xl mb-2">Conteúdo</label>
 					<base-textarea 
+					(valueEmitter)="setContent($event)"
 					id="content"
 					></base-textarea>
 				</div>
 
 				<div>
-					<base-button></base-button>
+					<base-button (clickEmitter)="OnClick()" ></base-button>
 				</div>
 			</div>
 		</form>
 		`,
-	styleUrl: './create-notification-form.component.scss'
 })
 export class CreateNotificationFormComponent {
 
 
-	@Output() public title!: string;
-	@Output() public content!: string;
+	public title: string ='';
+	public content: string = '';
 
-	setTitle(title: object) {
-		console.log(title);
-		this.title = title as unknown as string;
+	@Output() public createNotificationEmmiter = new EventEmitter<Notification>();
+	@Output() public titleEmitter = new EventEmitter<string>();
+	@Output() public contentEmitter = new EventEmitter<string>();
+
+
+	setTitle(_title: string) {
+		this.title = _title
+		this.titleEmitter.emit(this.title)
 	}
 
-	setContent(content: object) {
-		console.log(content);
-		this.content = content as unknown as string;
+	setContent(_content: string) {
+		this.content = _content;
+		this.contentEmitter.emit(this.content)
+	}
+
+	OnClick(){
+		const notification: Notification = {
+			title: this.title,
+			content: this.content,
+		}
+		this.createNotificationEmmiter.emit(notification)
 	}
 
 }

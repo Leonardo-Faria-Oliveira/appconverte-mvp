@@ -1,9 +1,5 @@
 import { Component } from '@angular/core';
-import { NotificationsWidget } from './components/notificationswidget';
-import { StatsWidget } from './components/statswidget';
-import { RecentSalesWidget } from './components/recentsaleswidget';
-import { BestSellingWidget } from './components/bestsellingwidget';
-import { RevenueStreamWidget } from './components/revenuestreamwidget';
+import { StatsWidget } from './components/statswidget/statswidget';
 import { NotificationsPaginationComponent } from "./components/notifications-pagination/notifications-pagination.component";
 
 @Component({

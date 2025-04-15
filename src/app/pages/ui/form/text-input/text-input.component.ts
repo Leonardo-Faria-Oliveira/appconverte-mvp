@@ -1,6 +1,6 @@
-import { Component, forwardRef, Input } from '@angular/core';
+import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { InputTextModule } from 'primeng/inputtext';
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'base-text-input',
@@ -8,6 +8,8 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
   template: `
         <input 
         [id]="id"
+        [defaultValue]="value"
+        (input)="onChange($event)"
         [type]="type" 
         [placeholder]="placeholder" 
         (focus)="isFocused = true"
@@ -21,47 +23,16 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
       multi: true
     }
   ],
-  styleUrl: './text-input.component.scss'
 })
-export class TextInputComponent extends InputTextModule implements ControlValueAccessor{
+export class TextInputComponent extends InputTextModule{
 
   constructor() {
     super();
   }
-  private innerValue: any = '';
-
-  writeValue(obj: any): void {
-    this.innerValue = obj;
-  }
-
-  registerOnChange(fn: any): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: any): void {
-    this.onTouched = fn;
-  }
-
-  setDisabledState?(isDisabled: boolean): void {
-    this.isDisabled = isDisabled;
-  }
-
-  private onChange: any = () => {};
-  private onTouched: any = () => {};
-  private isDisabled: boolean = false;
-
-  onInput(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    this.innerValue = input.value;
-    this.onChange(this.innerValue);
-  }
-
-  onBlur(): void {
-    this.onTouched();
-  }
-
 
   @Input() placeholder: string | undefined;
+
+  @Input() value: string = '';
 
   @Input() id: string = '0';
 
@@ -70,5 +41,13 @@ export class TextInputComponent extends InputTextModule implements ControlValueA
   @Input() type: string = 'text';
 
   @Input() isFocused: boolean = false;
+
+  @Output() valueEmitter = new EventEmitter<string>();
+
+  onChange(value: Event){
+    const inputElement = value.target as HTMLInputElement;
+    this.value = inputElement.value;
+    this.valueEmitter.emit(this.value);
+  }
   
 }

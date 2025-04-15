@@ -1,4 +1,4 @@
-import { Component, forwardRef, Input } from '@angular/core';
+import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { InputTextModule } from 'primeng/inputtext';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { PasswordModule } from 'primeng/password';
@@ -13,8 +13,7 @@ import { PasswordModule } from 'primeng/password';
         styleClass="w-full"
         [feedback]="false"
         [placeholder]="placeholder"
-        (focus)="onFocus()"
-        (blur)="onBlur()"
+        (input)="onChange($event)"
         >
         </p-password>
     `,
@@ -25,41 +24,20 @@ import { PasswordModule } from 'primeng/password';
       multi: true
     }
   ],
-  styleUrl: './password-input.component.scss'
 })
-export class PasswordInputComponent implements ControlValueAccessor {
+export class PasswordInputComponent {
   @Input() placeholder: string | undefined;
   @Input() id: string = '0';
   @Input() focusColor: string = 'var(--primary-color)';
   @Input() isFocused: boolean = false;
 
-  value: string = '';
-  onChange: (value: any) => void = () => {};
-  onTouched: () => void = () => {};
+  password: string = '';
 
-  writeValue(obj: any): void {
-    this.value = obj || '';
-  }
+  @Output() passwordEmitter = new EventEmitter<string>();
 
-  registerOnChange(fn: any): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: any): void {
-    this.onTouched = fn;
-  }
-
-  setDisabledState?(isDisabled: boolean): void {
-    // Handle disabled state if needed
-  }
-
-  onFocus(): void {
-    this.isFocused = true;
-    this.onTouched();
-  }
-
-  onBlur(): void {
-    this.isFocused = false;
-    this.onChange(this.value);
+  onChange(value: Event) {
+    const inputElement = value.target as HTMLInputElement;
+    this.password = inputElement.value;
+    this.passwordEmitter.emit(this.password);
   }
 }
