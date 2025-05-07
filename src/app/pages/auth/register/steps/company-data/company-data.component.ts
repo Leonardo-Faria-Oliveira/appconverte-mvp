@@ -8,7 +8,10 @@ import { MediaFileInputComponent } from "../../../../ui/form/media-file-input/me
   template: `
     <div class="flex flex-col gap-6">
         <div>
-            <label for="emailRegister" class="block text-surface-900 dark:text-surface-0 font-medium text-xl mb-2">Nome da empresa</label>
+            <label for="emailRegister" class="block text-surface-900 dark:text-surface-0 font-medium text-xl mb-2">
+              Nome da empresa
+              <span class="text-red-500">*</span>
+            </label>
             <base-text-input 
             id="companyNameRegister"
             placeholder="Preencha com o nome de sua empresa" 

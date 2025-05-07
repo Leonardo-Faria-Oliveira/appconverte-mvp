@@ -1,0 +1,16 @@
+.tooltip-container {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: #f44336; /* vermelho */
+    padding: 1rem;
+    color: #fff;
+    overflow: hidden;
+    z-index: 10;
+  }
+  .tooltip-text {
+    font-size: 1rem;
+  }
+  

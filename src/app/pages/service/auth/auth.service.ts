@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { IAuthService } from './auth.interface';
-import { Login } from '../../auth/login';
+import { Login } from '../../auth/login/login';
 import { User } from '../../models/user';
 import { HttpClient } from '../httpClient/httpClient';
 import { HttpResponse } from '../httpClient/httpResponse';
 import { LoginResponse } from '../responses/loginResponse';
+import { RequestError } from '../../models/error/request.error';
 
 @Injectable({
   providedIn: 'root'
@@ -17,11 +18,14 @@ export class AuthService implements IAuthService {
   
   public login: (login: Login) => Promise<void> = async (login: Login) => {
 
-    const response = await this.client.post('/auth/login', JSON.stringify(login)) as HttpResponse;
+    // const response = await this.client.post('/auth/login', JSON.stringify(login)) as HttpResponse;
 
-    const { token } = response.data as LoginResponse;
+    // const { token } = response.data as LoginResponse;
 
-    this.saveToken(token);
+    // this.saveToken(token);
+
+    throw new RequestError('Email ou senha inválidos')
+
 
   }
 

@@ -17,8 +17,14 @@ import { CommonModule } from '@angular/common';
     	<div class="bg-surface-50  dark:bg-surface-950 flex items-center justify-center min-h-screen min-w-[100vw] overflow-hidden">
             <div class="flex flex-col items-center justify-center">
                 <div style="padding: 0.3rem;">
+                    <span *ngIf="currentStep>1"           
+                    (click)="OnClick(false)"
+                    class="absolute cursor-pointer mt-[5.2rem] ml-8"
+                    >
+                        <i class="pi pi-chevron-left  !text-xl"></i>
+                    </span>    
                     <div style="box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.2);" class="w-full bg-surface-0 dark:bg-surface-900 py-20 px-8 sm:px-20" >
-                        <div class="text-center mb-8">
+                    <div class="text-center mb-8">
                             <div class="text-surface-900 dark:text-surface-0 text-3xl font-medium mb-4">Bem vindo ao AppConverte</div>
                             <span class="text-muted-color font-medium">Cadastre-se para continuar</span>
                         </div>
@@ -26,13 +32,20 @@ import { CommonModule } from '@angular/common';
                         <form class="flex flex-col gap-6">
 
                             <ng-container [ngSwitch]="currentStep">
-                                <user-data-step *ngSwitchCase="1"></user-data-step>
+                                <user-data-step 
+                                *ngSwitchCase="1"
+                                [name]="name"
+                                [email]="email"
+                                (nameEmitter)="setName($event)"
+                                (emailEmitter)="setEmail($event)"
+                                (isButtonDisabledEmitter)="setIsButtonDisabled($event)"
+                                ></user-data-step>
                                 <company-data-step *ngSwitchCase="2"  ></company-data-step>
                                 <password-step *ngSwitchCase="3" ></password-step>
                             </ng-container>
 
                             <base-button 
-                            [isDisabled]="isSubmiting"
+                            [isDisabled]="isButtonDisabled || isSubmiting"
                             [isLoading]="isSubmiting"
                             (clickEmitter)="OnClick()" 
                             [label]="label" 
@@ -48,8 +61,8 @@ import { CommonModule } from '@angular/common';
 })
 export class Register{
 
-	email!: string;
-	name !: string;
+	email: string = '';
+	name: string = '';
 	companyName!: string;
 	companyMedia!: string;
   	password!: string;
@@ -60,14 +73,18 @@ export class Register{
 
     public isSubmiting: boolean = false;
 
-    public setUserData(_name: string, _email: string){
-        this.name = _name;
-        this.email = _email;
+    public isButtonDisabled: boolean = true;
+
+    setName(_name: string) {
+        this.name = _name
     }
 
-    public setCompanyData(_companyName: string, _companyMedia: string){
-        this.companyName = _companyName;
-        this.companyMedia = _companyMedia;
+    setEmail(_email: string) {
+        this.email = _email
+    }
+
+    setIsButtonDisabled(_isButtonDisabled: boolean) {
+        this.isButtonDisabled = _isButtonDisabled
     }
 
     public setPassword(_password: string){
@@ -82,7 +99,7 @@ export class Register{
         this.currentStep--;
     }
 
-    public OnClick(){
+    public OnClick(goForward: boolean = true){
 
         if(this.currentStep == 2){
             this.label = 'Enviar';
@@ -94,12 +111,12 @@ export class Register{
             this.isSubmiting = true;
             setTimeout(() => {
                 this.isSubmiting = false;
-            }, 2000);
+            }, 1000);
 
             return;
         }
 
-        this.nextStep();
+        goForward ? this.nextStep() : this.previousStep();
 
     }
 

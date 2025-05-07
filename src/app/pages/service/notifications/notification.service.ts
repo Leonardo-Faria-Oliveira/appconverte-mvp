@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Notification } from '../../models/notification';
 import { INotificationService } from './notification.interface';
 import { HttpClient } from '../httpClient/httpClient';
+import { HttpResponse } from '../httpClient/httpResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +11,14 @@ export class NotificationService implements INotificationService {
 
   constructor(private client: HttpClient) {}
 
-  markAsRead: (notificationId: string) => Promise<void> = async() => {};
   deleteNotification: (notificationId: string) => Promise<void>= async() => {};
-  sendNotification: (notification: Notification) => Promise<void>= async() => {};
+
+  sendNotification: (notification: Notification) => Promise<void>= async(notification) => {
+
+    const response = await this.client.post('/messages/send', JSON.stringify(notification)) as HttpResponse;
+    
+
+  };
 
   async getNotifications(): Promise<Notification[]> {
 

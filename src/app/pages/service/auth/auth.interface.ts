@@ -1,4 +1,4 @@
-import { Login } from "../../auth/login";
+import { Login } from "../../auth/login/login";
 import { User } from "../../models/user";
 
 export interface IAuthService {

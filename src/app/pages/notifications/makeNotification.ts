@@ -47,8 +47,7 @@ export class MakeNotification {
 		try {
 			
 			this.Validate(notification)
-
-			const response = await this._service.sendNotification(notification)
+			await this._service.sendNotification(notification)
 
 		} catch (error) {
 			console.log(error)
