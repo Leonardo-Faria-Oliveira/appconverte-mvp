@@ -4,9 +4,9 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { PasswordModule } from 'primeng/password';
 
 @Component({
-  selector: 'password-input',
-  imports: [PasswordModule],
-  template: `
+	selector: 'password-input',
+	imports: [PasswordModule],
+	template: `
         <p-password
         [id]="id"
         [toggleMask]="true"
@@ -17,27 +17,27 @@ import { PasswordModule } from 'primeng/password';
         >
         </p-password>
     `,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => PasswordInputComponent),
-      multi: true
-    }
-  ],
+	providers: [
+		{
+			provide: NG_VALUE_ACCESSOR,
+			useExisting: forwardRef(() => PasswordInputComponent),
+			multi: true
+		}
+	],
 })
 export class PasswordInputComponent {
-  @Input() placeholder: string | undefined;
-  @Input() id: string = '0';
-  @Input() focusColor: string = 'var(--primary-color)';
-  @Input() isFocused: boolean = false;
+	@Input() placeholder: string | undefined;
+	@Input() id: string = '0';
+	@Input() focusColor: string = 'var(--primary-color)';
+	@Input() isFocused: boolean = false;
 
-  password: string = '';
+	password: string = '';
 
-  @Output() passwordEmitter = new EventEmitter<string>();
+	@Output() passwordEmitter = new EventEmitter<string>();
 
-  onChange(value: Event) {
-    const inputElement = value.target as HTMLInputElement;
-    this.password = inputElement.value;
-    this.passwordEmitter.emit(this.password);
-  }
+	onChange(value: Event) {
+		const inputElement = value.target as HTMLInputElement;
+		this.password = inputElement.value;
+		this.passwordEmitter.emit(this.password);
+	}
 }

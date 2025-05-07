@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TextInputComponent } from "../../../../ui/form/text-input/text-input.component";
+import { ErrorLabelComponent } from "../../../../ui/form/error-label/error-label.component";
 
 @Component({
   selector: 'user-data-step',
-  imports: [TextInputComponent],
+  imports: [TextInputComponent, ErrorLabelComponent],
       template: `
       <div class="flex flex-col gap-6">
             <div>
@@ -18,6 +19,12 @@ import { TextInputComponent } from "../../../../ui/form/text-input/text-input.co
                 focusColor="var(--primary-color)"
                 (valueEmitter)="setName($event)" 
                 ></base-text-input>
+                
+                <error-label 
+                [condition]="name.length > 0 && !this.isNameValid"
+                message="Nome deve possuir mais que 5 caracteres"
+                ></error-label>
+
             </div>
             <div>
                 <label for="emailRegister" class="block text-surface-900 dark:text-surface-0 font-medium text-xl mb-2">
@@ -33,6 +40,11 @@ import { TextInputComponent } from "../../../../ui/form/text-input/text-input.co
                 type="email"
                 (valueEmitter)="setEmail($event)" 
                 ></base-text-input>
+
+                <error-label 
+                [condition]="email.length > 0 && !this.isEmailValid"
+                message="Email inválido"
+                ></error-label>
             </div>
       </div>
         
@@ -44,6 +56,9 @@ export class UserDataComponent {
     @Input() public email!: string;
 
     public isButtonDisabled: boolean = true;
+
+    public isNameValid!: boolean;
+    public isEmailValid!: boolean;
 
     @Output() public nameEmitter = new EventEmitter<string>();
     @Output() public emailEmitter = new EventEmitter<string>();
@@ -71,9 +86,9 @@ export class UserDataComponent {
     }
     
     public ValidateForm(): void {
-        const isNameValid = this.name.length > 5;
-        const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.email);
-        this.ToggleButtonDisabled(!(isNameValid && isEmailValid));
+        this.isNameValid = this.name.length > 5;
+        this.isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.email);
+        this.ToggleButtonDisabled(!(this.isNameValid && this.isEmailValid));
     }
 
 
