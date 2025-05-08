@@ -35,6 +35,9 @@ export class AuthService implements IAuthService {
   }
 
   public register: (user: User) => Promise<void> = async (user: User) => {
+
+    throw new RequestError('Email já existe');
+
   };
 
   public forgotPassword: (email: string) => Promise<void> = async (email: string) => {

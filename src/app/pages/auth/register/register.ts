@@ -4,12 +4,16 @@ import { UserDataComponent } from "./steps/user-data/user-data.component";
 import { CompanyDataComponent } from "./steps/company-data/company-data.component";
 import { PasswordComponent } from "./steps/password/password.component";
 import { CommonModule } from '@angular/common';
+import { Error } from "../../ui/tooltips/error/error";
+import { AuthService } from '../../service/auth/auth.service';
+import { Router } from '@angular/router';
+import { RequestError } from '../../models/error/request.error';
 
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ButtonComponent, UserDataComponent, CompanyDataComponent, PasswordComponent],
+  imports: [CommonModule, ButtonComponent, UserDataComponent, CompanyDataComponent, PasswordComponent, Error],
   template: `
     <div class="bg-surface-50  dark:bg-surface-950 flex items-center justify-center min-h-screen min-w-[100vw] overflow-hidden">
         <div class="flex flex-col items-center justify-center">
@@ -67,10 +71,18 @@ import { CommonModule } from '@angular/common';
             </div>
         </div>
     </div>
+    <app-error
+    [errored]="errored"
+    [message]="errorMessage"
+    ></app-error>
   `,
 })
 
 export class Register{
+
+
+    constructor(private readonly _service: AuthService, private router:Router) {}
+
 
 	email: string = '';
 	name: string = '';
@@ -80,30 +92,42 @@ export class Register{
 
     public currentStep: number = 1;
 
+    public errored: boolean = false;
+
+    public errorMessage: string = '';
+
     public label: string = 'Proximo';
 
     public isSubmiting: boolean = false;
 
     public isButtonDisabled: boolean = true;
 
-    setName(_name: string) {
+    public setName(_name: string) {
         this.name = _name
     }
 
-    setEmail(_email: string) {
+    public setEmail(_email: string) {
         this.email = _email
     }
 
-    setCompanyName(_companyName: string) {
+    public setCompanyName(_companyName: string) {
         this.companyName = _companyName
     }
 
-    setCompanyMedia(_companyMedia: File | null) {
+    public setCompanyMedia(_companyMedia: File | null) {
         this.companyMedia = _companyMedia
     }
 
-    setIsButtonDisabled(_isButtonDisabled: boolean) {
+    public setIsButtonDisabled(_isButtonDisabled: boolean) {
         this.isButtonDisabled = _isButtonDisabled
+    }
+
+    public setErrored(_errored: boolean) {
+        this.errored = _errored;
+    }
+
+    public setErrorMessage(_errorMessage: string) {
+        this.errorMessage = _errorMessage;
     }
 
     public setPassword(_password: string){
@@ -119,7 +143,7 @@ export class Register{
         this.currentStep--;
     }
 
-    public OnClick(goForward: boolean = true){
+    public async OnClick(goForward: boolean = true){
 
         if(this.currentStep == 1 || !goForward){
             this.label = 'Próximo';
@@ -131,20 +155,41 @@ export class Register{
 
         if(this.currentStep == 3 && goForward){
 
-            //submit
-            console.log('submit', {
-                email: this.email,
-                name: this.name,
-                companyName: this.companyName,
-                companyMedia: this.companyMedia,
-                password: this.password
-            });
-            this.isSubmiting = true;
-            setTimeout(() => {
-                this.isSubmiting = false;
-            }, 1000);
+            try{
 
-            return;
+                this.isSubmiting = true;
+                const user = {
+                    email: this.email,
+                    name: this.name,
+                    companyName: this.companyName,
+                    companyMedia: this.companyMedia,
+                    password: this.password
+                };
+
+                await this._service.register(user)
+
+                setTimeout(() => {
+                    this.isSubmiting = false;
+                }, 1000);
+
+            }catch (error) {
+
+                setTimeout(() => {
+                    this.isSubmiting = false;
+                }, 1000);
+
+                if (error instanceof RequestError) {
+                    this.setErrored(true);
+                    this.setErrorMessage(error.getMessage());
+                    setTimeout(() => {
+                        this.setErrored(false);
+                    }, 3000);
+                }
+                
+            }finally{
+                return;
+            }
+
         }
 
         
