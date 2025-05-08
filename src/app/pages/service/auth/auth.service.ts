@@ -24,7 +24,7 @@ export class AuthService implements IAuthService {
 
     // this.saveToken(token);
 
-    throw new RequestError('Email ou senha inválidos')
+    // throw new RequestError('Email ou senha inválidos')
 
 
   }
@@ -36,13 +36,13 @@ export class AuthService implements IAuthService {
 
   public register: (user: User) => Promise<void> = async (user: User) => {
 
-    throw new RequestError('Email já existe');
+    // throw new RequestError('Email já existe');
 
   };
 
   public forgotPassword: (email: string) => Promise<void> = async (email: string) => {
 
-    throw new RequestError('Email não encontrado');
+    // throw new RequestError('Email não encontrado');
 
 
   };

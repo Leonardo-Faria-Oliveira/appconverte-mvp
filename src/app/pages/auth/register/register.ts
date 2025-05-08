@@ -4,16 +4,17 @@ import { UserDataComponent } from "./steps/user-data/user-data.component";
 import { CompanyDataComponent } from "./steps/company-data/company-data.component";
 import { PasswordComponent } from "./steps/password/password.component";
 import { CommonModule } from '@angular/common';
-import { Error } from "../../ui/tooltips/error/error";
+import { ErrorTooltip } from "../../ui/tooltips/error/error.component";
 import { AuthService } from '../../service/auth/auth.service';
 import { Router } from '@angular/router';
 import { RequestError } from '../../models/error/request.error';
+import { ResponseTooltipComponent } from "../../ui/tooltips/response-tooltip.component";
 
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ButtonComponent, UserDataComponent, CompanyDataComponent, PasswordComponent, Error],
+  imports: [CommonModule, ButtonComponent, UserDataComponent, CompanyDataComponent, PasswordComponent, ResponseTooltipComponent],
   template: `
     <div class="bg-surface-50  dark:bg-surface-950 flex items-center justify-center min-h-screen min-w-[100vw] overflow-hidden">
         <div class="flex flex-col items-center justify-center">
@@ -71,10 +72,12 @@ import { RequestError } from '../../models/error/request.error';
             </div>
         </div>
     </div>
-    <app-error
-    [errored]="errored"
-    [message]="errorMessage"
-    ></app-error>
+    <app-response-tooltip
+        [errored]="errored"
+    [errorMessage]="errorMessage"
+        [success]="success"
+    [successMessage]="successMessage"
+    ></app-response-tooltip>
   `,
 })
 
@@ -93,8 +96,10 @@ export class Register{
     public currentStep: number = 1;
 
     public errored: boolean = false;
-
     public errorMessage: string = '';
+
+    public success: boolean = false;
+    public successMessage: string = 'Registrado com sucesso!';
 
     public label: string = 'Proximo';
 
@@ -168,23 +173,30 @@ export class Register{
 
                 await this._service.register(user)
 
+                this.success = true;
+
+                setTimeout(() => {
+                    this.success = false;
+                }, 1000);
+
                 setTimeout(() => {
                     this.isSubmiting = false;
-                }, 1000);
+                    this.router.navigate(['/']);       
+                }, 1500);
 
             }catch (error) {
-
-                setTimeout(() => {
-                    this.isSubmiting = false;
-                }, 1000);
 
                 if (error instanceof RequestError) {
                     this.setErrored(true);
                     this.setErrorMessage(error.getMessage());
                     setTimeout(() => {
                         this.setErrored(false);
-                    }, 3000);
+                    }, 1000);
                 }
+
+                setTimeout(() => {
+                    this.isSubmiting = false;
+                }, 1500);
                 
             }finally{
                 return;

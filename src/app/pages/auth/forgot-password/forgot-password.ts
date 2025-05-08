@@ -1,13 +1,16 @@
 import { Component } from '@angular/core';
 import { TextInputComponent } from "../../ui/form/text-input/text-input.component";
 import { ButtonComponent } from "../../ui/button/button.component";
-import { AuthService } from '../../service/auth/auth.service';import { Error } from "../../ui/tooltips/error/error";
+import { AuthService } from '../../service/auth/auth.service';
+import { ErrorTooltip } from "../../ui/tooltips/error/error.component";
 import { Router } from '@angular/router';
 import { RequestError } from '../../models/error/request.error';
+import { SuccessTooltip } from "../../ui/tooltips/success/success.component";
+import { ResponseTooltipComponent } from "../../ui/tooltips/response-tooltip.component";
 
 @Component({
   selector: 'app-forgot-password',
-  imports: [TextInputComponent, ButtonComponent, Error],
+  imports: [TextInputComponent, ButtonComponent, ResponseTooltipComponent],
   template: `
   		<main class="bg-surface-50 dark:bg-surface-950 flex items-center justify-center min-h-screen min-w-[100vw] overflow-hidden">
             <section class="flex flex-col items-center justify-center">
@@ -44,13 +47,17 @@ import { RequestError } from '../../models/error/request.error';
                 </div>
             </section>
         </main>
-        <app-error
-        [errored]="errored"
-        [message]="errorMessage"
-        ></app-error>
+        
+        <app-response-tooltip
+         [errored]="errored"
+        [errorMessage]="errorMessage"
+         [success]="success"
+        [successMessage]="successMessage"
+        ></app-response-tooltip>
   
   `,
 })
+
 export class ForgotPassword {
 
     constructor(private readonly _service: AuthService, private router:Router) {}
@@ -61,17 +68,20 @@ export class ForgotPassword {
 
     public isSubmiting: boolean = false;
 
-        setErrored(_errored: boolean) {
+    public setErrored(_errored: boolean) {
         this.errored = _errored;
     }
 
-    setErrorMessage(_errorMessage: string) {
+    public setErrorMessage(_errorMessage: string) {
         this.errorMessage = _errorMessage;
     }
 
 
     public errored: boolean = false;
     public errorMessage: string = '';
+
+    public success: boolean = false;
+    public successMessage: string = 'Senha enviada no email enviado com sucesso!';
 
     public setButtonDisabled(isButtonDisabled: boolean) {
         this.isButtonDisabled = isButtonDisabled;
@@ -107,24 +117,32 @@ export class ForgotPassword {
 
             this.setIsSubmiting(true);
             await this._service.forgotPassword(this.email);
+            
+            this.success = true;
+
+            setTimeout(() => {
+                this.success = false;
+            }, 1000);
+
             setTimeout(() => {
                 this.isSubmiting = false;
-            }, 1000);
-            // this.router.navigate(['/']);
-
+                this.router.navigate(['/auth/login']);       
+            }, 1500);
+            
         } catch (error) {
-
-            setTimeout(() => {
-                this.isSubmiting = false;
-            }, 1000);
 
             if (error instanceof RequestError) {
                 this.setErrored(true);
                 this.setErrorMessage(error.getMessage());
                 setTimeout(() => {
                     this.setErrored(false);
-                }, 3000);
+                }, 1000);
             }
+
+            setTimeout(() => {
+                this.isSubmiting = false;
+            }, 1500);
+
 
         }         
 

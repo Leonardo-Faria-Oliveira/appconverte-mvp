@@ -10,14 +10,15 @@ import { ButtonComponent } from '../../ui/button/button.component';
 import { TextInputComponent } from '../../ui/form/text-input/text-input.component';
 import { PasswordInputComponent } from '../../ui/form/password-input/password-input.component';
 import { AuthService } from '../../service/auth/auth.service';
-import { Error } from "../../ui/tooltips/error/error";
+import { ErrorTooltip } from "../../ui/tooltips/error/error.component";
 import { CommonModule } from '@angular/common';
 import { RequestError } from '../../models/error/request.error';
+import { ResponseTooltipComponent } from "../../ui/tooltips/response-tooltip.component";
 
 @Component({
     selector: 'app-login',
     standalone: true,
-    imports: [CommonModule, ButtonComponent, TextInputComponent, PasswordInputComponent, CheckboxModule, InputTextModule, PasswordModule, FormsModule, RouterModule, RippleModule, Error],
+    imports: [CommonModule, ButtonComponent, TextInputComponent, PasswordInputComponent, CheckboxModule, InputTextModule, PasswordModule, FormsModule, RouterModule, RippleModule, ResponseTooltipComponent],
     template: `
         <main class="bg-surface-50 relative dark:bg-surface-950 flex items-center justify-center h-screen w-full overflow-hidden">
             <section class="flex flex-col items-center justify-center">
@@ -66,10 +67,13 @@ import { RequestError } from '../../models/error/request.error';
                 </div>
             </section>
         </main>
-        <app-error
-        [errored]="errored"
-        [message]="errorMessage"
-        ></app-error>
+        <app-response-tooltip
+         [errored]="errored"
+        [errorMessage]="errorMessage"
+         [success]="success"
+        [successMessage]="successMessage"
+        ></app-response-tooltip>
+
     `,
 })
 export class Login {
@@ -88,6 +92,9 @@ export class Login {
 
     public errored: boolean = false;
     public errorMessage: string = '';
+
+    public success: boolean = false;
+    public successMessage: string = 'Logado com sucesso!';
 
     setEmail(_email: string) {
         if(this.ValidateForm()){
@@ -125,24 +132,31 @@ export class Login {
 
             this.setLoading(true);
             await this._service.login({email: this.email, password:this.password} as Login )
+           
+            this.success = true;
+
             setTimeout(() => {
-                this.setLoading(false);
+                this.success = false;
             }, 1000);
-            // this.router.navigate(['/']);
+
+            setTimeout(() => {
+                this.isSubmiting = false;
+                this.router.navigate(['/']);       
+            }, 1500);
 
         } catch (error) {
-
-            setTimeout(() => {
-                this.setLoading(false);
-            }, 1000);
 
             if (error instanceof RequestError) {
                 this.setErrored(true);
                 this.setErrorMessage(error.getMessage());
                 setTimeout(() => {
                     this.setErrored(false);
-                }, 3000);
+                }, 1000);
             }
+
+            setTimeout(() => {
+                this.isSubmiting = false;
+            }, 1500);
 
         } 
    
