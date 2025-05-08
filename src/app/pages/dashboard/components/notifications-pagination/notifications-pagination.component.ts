@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { TableModule } from 'primeng/table';
-import { NotificationService } from '../../../service/notifications/notification.service';
-import { StatusBadgeComponent } from "../../../ui/table/status-badge/status-badge";
-import { Notification ,NotificationStatus } from '../../../models/notification';
+import { NotificationService } from '../../../../services/notifications/notification.service';
+import { StatusBadgeComponent } from "../../../components/table/status-badge/status-badge";
+import { Notification ,NotificationStatus } from '../../../../models/notification';
 
 export interface NotificationViewModel {
 	id?: string;

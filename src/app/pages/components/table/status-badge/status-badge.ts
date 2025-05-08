@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TagModule } from 'primeng/tag';
-import { NotificationStatus } from '../../../models/notification';
+import { NotificationStatus } from '../../../../models/notification';
 
 
 @Component({

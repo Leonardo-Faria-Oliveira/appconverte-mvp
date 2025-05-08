@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { PasswordInputComponent } from "../../../../ui/form/password-input/password-input.component";
+import { PasswordInputComponent } from "../../../../components/form/password-input/password-input.component";
 import { CommonModule } from '@angular/common';
-import { ErrorLabelComponent } from "../../../../ui/form/error-label/error-label.component";
+import { ErrorLabelComponent } from "../../../../components/form/error-label/error-label.component";
 
 @Component({
 	selector: 'password-step',

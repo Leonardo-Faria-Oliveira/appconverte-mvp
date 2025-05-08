@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
-import { environment } from '../../../../../env';
+import { environment } from '../../../../env';
 
 @Injectable({
     providedIn: 'root'

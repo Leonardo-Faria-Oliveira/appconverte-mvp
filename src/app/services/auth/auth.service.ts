@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IAuthService } from './auth.interface';
-import { Login } from '../../auth/login/login';
+import { Login } from '../../pages/auth/login/login';
 import { User } from '../../models/user';
 import { HttpClient } from '../httpClient/httpClient';
 import { HttpResponse } from '../httpClient/httpResponse';

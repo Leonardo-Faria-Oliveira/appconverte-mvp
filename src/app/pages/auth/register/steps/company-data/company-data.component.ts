@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { TextInputComponent } from "../../../../ui/form/text-input/text-input.component";
-import { MediaFileInputComponent } from "../../../../ui/form/media-file-input/media-file-input.component";
-import { ErrorLabelComponent } from "../../../../ui/form/error-label/error-label.component";
+import { TextInputComponent } from "../../../../components/form/text-input/text-input.component";
+import { MediaFileInputComponent } from "../../../../components/form/media-file-input/media-file-input.component";
+import { ErrorLabelComponent } from "../../../../components/form/error-label/error-label.component";
 
 @Component({
 	selector: 'company-data-step',

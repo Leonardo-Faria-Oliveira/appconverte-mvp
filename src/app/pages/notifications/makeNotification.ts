@@ -5,9 +5,9 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TextareaModule } from 'primeng/textarea';
 import { CreateNotificationFormComponent } from "./components/create-notification-form/create-notification-form.component";
 import { PreviewMockupComponent } from "./components/preview-mockup/preview-mockup.component";
-import { Notification } from '../models/notification';
-import { INotificationService } from '../service/notifications/notification.interface';
-import { NotificationService } from '../service/notifications/notification.service';
+import { Notification } from '../../models/notification';
+import { NotificationService } from '../../services/notifications/notification.service';
+
 
 @Component({
 	selector: 'app-notifications',

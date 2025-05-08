@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
-import { TextInputComponent } from "../../ui/form/text-input/text-input.component";
-import { ButtonComponent } from "../../ui/button/button.component";
-import { AuthService } from '../../service/auth/auth.service';
-import { ErrorTooltip } from "../../ui/tooltips/error/error.component";
+import { TextInputComponent } from "../../components/form/text-input/text-input.component";
+import { ButtonComponent } from "../../components/button/button.component";
+import { AuthService } from '../../../services/auth/auth.service';
 import { Router } from '@angular/router';
-import { RequestError } from '../../models/error/request.error';
-import { SuccessTooltip } from "../../ui/tooltips/success/success.component";
-import { ResponseTooltipComponent } from "../../ui/tooltips/response-tooltip.component";
+import { RequestError } from '../../../models/error/request.error';
+import { ResponseTooltipComponent } from "../../components/tooltips/response-tooltip.component";
 
 @Component({
   selector: 'app-forgot-password',

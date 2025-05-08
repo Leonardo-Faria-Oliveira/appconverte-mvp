@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
-import { ButtonComponent } from "../../ui/button/button.component";
+import { ButtonComponent } from "../../components/button/button.component";
 import { UserDataComponent } from "./steps/user-data/user-data.component";
 import { CompanyDataComponent } from "./steps/company-data/company-data.component";
 import { PasswordComponent } from "./steps/password/password.component";
 import { CommonModule } from '@angular/common';
-import { ErrorTooltip } from "../../ui/tooltips/error/error.component";
-import { AuthService } from '../../service/auth/auth.service';
+import { AuthService } from '../../../services/auth/auth.service';
 import { Router } from '@angular/router';
-import { RequestError } from '../../models/error/request.error';
-import { ResponseTooltipComponent } from "../../ui/tooltips/response-tooltip.component";
+import { RequestError } from '../../../models/error/request.error';
+import { ResponseTooltipComponent } from "../../components/tooltips/response-tooltip.component";
+import { BaseForm } from '../../../models/base-form.abstract';
 
 
 @Component({
@@ -81,11 +81,11 @@ import { ResponseTooltipComponent } from "../../ui/tooltips/response-tooltip.com
   `,
 })
 
-export class Register{
+export class Register extends BaseForm {
 
-
-    constructor(private readonly _service: AuthService, private router:Router) {}
-
+    constructor(private readonly _service: AuthService, private router:Router) {
+        super();
+    }
 
 	email: string = '';
 	name: string = '';
@@ -95,17 +95,9 @@ export class Register{
 
     public currentStep: number = 1;
 
-    public errored: boolean = false;
-    public errorMessage: string = '';
-
-    public success: boolean = false;
-    public successMessage: string = 'Registrado com sucesso!';
+    public override successMessage: string = 'Registrado com sucesso!';
 
     public label: string = 'Proximo';
-
-    public isSubmiting: boolean = false;
-
-    public isButtonDisabled: boolean = true;
 
     public setName(_name: string) {
         this.name = _name

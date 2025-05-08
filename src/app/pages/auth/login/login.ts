@@ -1,19 +1,17 @@
-import { Component, Inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { RippleModule } from 'primeng/ripple';
-import { ButtonComponent } from '../../ui/button/button.component';
-import { TextInputComponent } from '../../ui/form/text-input/text-input.component';
-import { PasswordInputComponent } from '../../ui/form/password-input/password-input.component';
-import { AuthService } from '../../service/auth/auth.service';
-import { ErrorTooltip } from "../../ui/tooltips/error/error.component";
+import { ButtonComponent } from '../../components/button/button.component';
+import { TextInputComponent } from '../../components/form/text-input/text-input.component';
+import { PasswordInputComponent } from '../../components/form/password-input/password-input.component';
+import { AuthService } from '../../../services/auth/auth.service';
 import { CommonModule } from '@angular/common';
-import { RequestError } from '../../models/error/request.error';
-import { ResponseTooltipComponent } from "../../ui/tooltips/response-tooltip.component";
+import { RequestError } from '../../../models/error/request.error';
+import { ResponseTooltipComponent } from "../../components/tooltips/response-tooltip.component";
 
 @Component({
     selector: 'app-login',

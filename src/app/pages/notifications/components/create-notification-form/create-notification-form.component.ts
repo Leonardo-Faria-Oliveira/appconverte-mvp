@@ -3,10 +3,10 @@ import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { TextareaModule } from 'primeng/textarea';
-import { TextInputComponent } from '../../../ui/form/text-input/text-input.component';
-import { TextareaInputComponent } from '../../../ui/form/textarea-input/textarea-input.component';
-import { ButtonComponent } from "../../../ui/button/button.component";
-import { Notification } from '../../../models/notification';
+import { TextInputComponent } from '../../../components/form/text-input/text-input.component';
+import { TextareaInputComponent } from '../../../components/form/textarea-input/textarea-input.component';
+import { ButtonComponent } from "../../../components/button/button.component";
+import { Notification } from '../../../../models/notification';
 
 @Component({
 	selector: 'create-notification-form',

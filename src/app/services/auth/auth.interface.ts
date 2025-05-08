@@ -1,4 +1,4 @@
-import { Login } from "../../auth/login/login";
+import { Login } from "../../pages/auth/login/login";
 import { User } from "../../models/user";
 
 export interface IAuthService {
