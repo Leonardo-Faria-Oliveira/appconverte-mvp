@@ -126,14 +126,14 @@ export class Login {
             this.setLoading(true);
             await this._service.login({email: this.email, password:this.password} as Login )
             setTimeout(() => {
-                this.isSubmiting = false;
+                this.setLoading(false);
             }, 1000);
             // this.router.navigate(['/']);
 
         } catch (error) {
 
             setTimeout(() => {
-                this.isSubmiting = false;
+                this.setLoading(false);
             }, 1000);
 
             if (error instanceof RequestError) {

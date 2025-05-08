@@ -41,6 +41,10 @@ export class AuthService implements IAuthService {
   };
 
   public forgotPassword: (email: string) => Promise<void> = async (email: string) => {
+
+    throw new RequestError('Email não encontrado');
+
+
   };
 
   public logout: () => Promise<void> = async () => {};

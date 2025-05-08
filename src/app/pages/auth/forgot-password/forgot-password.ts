@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
 import { TextInputComponent } from "../../ui/form/text-input/text-input.component";
 import { ButtonComponent } from "../../ui/button/button.component";
+import { AuthService } from '../../service/auth/auth.service';import { Error } from "../../ui/tooltips/error/error";
+import { Router } from '@angular/router';
+import { RequestError } from '../../models/error/request.error';
 
 @Component({
   selector: 'app-forgot-password',
-  imports: [TextInputComponent, ButtonComponent],
+  imports: [TextInputComponent, ButtonComponent, Error],
   template: `
   		<main class="bg-surface-50 dark:bg-surface-950 flex items-center justify-center min-h-screen min-w-[100vw] overflow-hidden">
             <section class="flex flex-col items-center justify-center">
@@ -23,20 +26,109 @@ import { ButtonComponent } from "../../ui/button/button.component";
                                 id="emailLogin"
                                 type="email"
                                 placeholder="Preencha com seu email" 
+                                (valueEmitter)="setEmail($event)"
                                 focusColor="var(--primary-color)"
                                 ></base-text-input>
                             </div>
                             
-                            <base-button label="Enviar senha" routerLink="/"></base-button>     
+                            <base-button 
+                            label="Enviar senha" 
+                            [isDisabled]="isButtonDisabled || isSubmiting"
+                            [isLoading]="isSubmiting"
+                            (clickEmitter)="Submit()"
+                            >
+                            </base-button>     
                             
                         </div>
                     </div>
                 </div>
             </section>
         </main>
+        <app-error
+        [errored]="errored"
+        [message]="errorMessage"
+        ></app-error>
   
   `,
 })
 export class ForgotPassword {
 
+    constructor(private readonly _service: AuthService, private router:Router) {}
+
+    public email: string = '';
+
+    public isButtonDisabled: boolean = true;
+
+    public isSubmiting: boolean = false;
+
+        setErrored(_errored: boolean) {
+        this.errored = _errored;
+    }
+
+    setErrorMessage(_errorMessage: string) {
+        this.errorMessage = _errorMessage;
+    }
+
+
+    public errored: boolean = false;
+    public errorMessage: string = '';
+
+    public setButtonDisabled(isButtonDisabled: boolean) {
+        this.isButtonDisabled = isButtonDisabled;
+    }
+
+    public setIsSubmiting(isSubmiting: boolean) {
+        this.isSubmiting = isSubmiting;
+    }
+
+    public setEmail(email: string) {
+        this.email = email;
+        this.ValidateForm();
+    }
+
+    public ToggleButtonDisabled(condition: boolean) {
+        this.setButtonDisabled(condition);
+	}
+
+     public ValidateForm():void{
+        const condition = this.email.length > 1 && this.isEmailValid(this.email);
+        this.ToggleButtonDisabled(!condition);
+        
+    }
+
+    public isEmailValid(email: string): boolean {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+
+    public async Submit(){
+
+        try {
+
+            this.setIsSubmiting(true);
+            await this._service.forgotPassword(this.email);
+            setTimeout(() => {
+                this.isSubmiting = false;
+            }, 1000);
+            // this.router.navigate(['/']);
+
+        } catch (error) {
+
+            setTimeout(() => {
+                this.isSubmiting = false;
+            }, 1000);
+
+            if (error instanceof RequestError) {
+                this.setErrored(true);
+                this.setErrorMessage(error.getMessage());
+                setTimeout(() => {
+                    this.setErrored(false);
+                }, 3000);
+            }
+
+        }         
+
+
+    }
+    
 }
