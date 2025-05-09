@@ -12,6 +12,7 @@ import { AuthService } from '../../../services/auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { RequestError } from '../../../models/error/request.error';
 import { ResponseTooltipComponent } from "../../components/tooltips/response-tooltip.component";
+import { BaseForm } from '../../../models/base-form.abstract';
 
 @Component({
     selector: 'app-login',
@@ -51,10 +52,10 @@ import { ResponseTooltipComponent } from "../../components/tooltips/response-too
                             <a href="/auth/forgot-password" class="font-medium no-underline ml-2 text-right cursor-pointer ">Esqueci minha senha</a>
                             
                             <base-button 
-                            (clickEmitter)="login()" 
+                            (clickEmitter)="Submit()" 
                             label="Acessar" 
-                            [isDisabled]="isButtonDisabled || isSubmiting" 
-                            [isLoading]="isSubmiting" 
+                            [isDisabled]="this.getIsButtonDisabled() || this.getIsLoading()" 
+                            [isLoading]="this.getIsLoading()" 
                             ></base-button>     
                             <a class="font-medium ml-2 text-center cursor-pointer underline" href="/auth/register">
                                 <span >Cadastre-se agora</span>
@@ -66,17 +67,18 @@ import { ResponseTooltipComponent } from "../../components/tooltips/response-too
             </section>
         </main>
         <app-response-tooltip
-         [errored]="errored"
-        [errorMessage]="errorMessage"
-         [success]="success"
-        [successMessage]="successMessage"
+         [errored]="this.getErrored()"
+        [errorMessage]="this.getErrorMessage()"
+         [success]="this.getSuccess()"
+        [successMessage]="this.successMessage"
         ></app-response-tooltip>
-
     `,
 })
-export class Login {
+export class Login extends BaseForm {
 
-    constructor(private readonly _service: AuthService, private router:Router) {}
+    constructor(private readonly _service: AuthService, private router:Router) {
+        super();
+    }
 
     public email: string = '';
 
@@ -84,61 +86,43 @@ export class Login {
 
     public checked: boolean = false;
 
-    public isButtonDisabled: boolean = true;
-    
-    public isSubmiting: boolean = false;
-
-    public errored: boolean = false;
-    public errorMessage: string = '';
-
-    public success: boolean = false;
     public successMessage: string = 'Logado com sucesso!';
 
     setEmail(_email: string) {
         if(this.ValidateForm()){
-            this.isButtonDisabled = false;
+            this.setIsButtonDisabled(false);
         }else{
-            this.isButtonDisabled = true;
+            this.setIsButtonDisabled(true);
         }
         this.email = _email;
     }
 
     setPassword(_password: string) {
         if(this.ValidateForm()){
-            this.isButtonDisabled = false;
+            this.setIsButtonDisabled(false);
         }else{
-            this.isButtonDisabled = true;
+            this.setIsButtonDisabled(true);
         }
         this.password = _password;
     }
 
-    setErrored(_errored: boolean) {
-        this.errored = _errored;
-    }
 
-    setErrorMessage(_errorMessage: string) {
-        this.errorMessage = _errorMessage;
-    }
 
-    setLoading(_isLoading: boolean) {
-        this.isSubmiting = _isLoading;
-    }
-
-    public async login(){
+    public async Submit(){
         
         try {
 
-            this.setLoading(true);
+            this.setIsLoading(true);
             await this._service.login({email: this.email, password:this.password} as Login )
            
-            this.success = true;
+            this.setSuccess(true);
 
             setTimeout(() => {
-                this.success = false;
+                this.setSuccess(false);
             }, 1000);
 
             setTimeout(() => {
-                this.isSubmiting = false;
+                this.setIsLoading(false);
                 this.router.navigate(['/']);       
             }, 1500);
 
@@ -153,7 +137,7 @@ export class Login {
             }
 
             setTimeout(() => {
-                this.isSubmiting = false;
+                this.setIsLoading(false);
             }, 1500);
 
         } 

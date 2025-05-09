@@ -7,7 +7,7 @@ import { NotificationsPaginationComponent } from "./components/notifications-pag
     imports: [StatsWidget, NotificationsPaginationComponent],
     template: `
         
-        <div class="grid grid-cols-12 gap-8">
+        <div class="grid grid-cols-12 gap-8 ">
             <app-stats-widget class="contents" />
             <div class="w-full col-span-full">
                 <app-notifications-pagination></app-notifications-pagination>

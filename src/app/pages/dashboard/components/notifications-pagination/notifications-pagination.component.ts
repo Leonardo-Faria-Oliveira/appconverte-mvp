@@ -26,7 +26,7 @@ export interface NotificationViewModel {
 					<tr>
 						<th pSortableColumn="title">Título <p-sortIcon field="title"></p-sortIcon></th>
 						<th pSortableColumn="content">Conteúdo <p-sortIcon field="content"></p-sortIcon></th>
-						<th>Status <p-sortIcon field="status"></p-sortIcon></th>
+						<th pSortableColumn="status">Status  <p-sortIcon field="status"></p-sortIcon></th>
 						<th pSortableColumn="date">Data <p-sortIcon field="date"></p-sortIcon></th>
 					</tr>
 				</ng-template>

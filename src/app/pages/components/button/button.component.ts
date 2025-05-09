@@ -9,11 +9,12 @@ import { ButtonModule } from 'primeng/button';
         <button pButton 
         type="button" 
         [disabled]="isDisabled"
-        styleClass="w-full" 
+        styleClass="w-full " 
         [style]="{
           background: isHovering ? hover : background,
           color: color,
           border: border,
+
         }"
         (click)="OnClick()"
         (mouseenter)="isHovering = true"

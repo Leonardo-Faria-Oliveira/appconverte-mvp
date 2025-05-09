@@ -11,7 +11,7 @@ import { TextareaModule } from 'primeng/textarea';
         [defaultValue]="value"
         rows="4"
         (input)="onChange($event)"
-        [style]="{ height: '150px' }"
+        [style]="{ height: '150px'  }"
         ></textarea>
     `,
 })

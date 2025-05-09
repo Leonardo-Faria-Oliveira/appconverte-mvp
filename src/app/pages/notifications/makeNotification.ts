@@ -13,14 +13,14 @@ import { NotificationService } from '../../services/notifications/notification.s
 	selector: 'app-notifications',
 	imports: [FormsModule, InputTextModule, ButtonModule, TextareaModule, CreateNotificationFormComponent, PreviewMockupComponent],
 	template: `
-		<main class="w-full">
+		<main class="w-full ">
 			<h2>Enviar notificação</h2>
-			<section class="card min-h-min flex flex-row justify-start gap-20">
+			<section class="card min-h-min flex flex-col md:flex-row justify-center md:justify-start gap-20">
 				<create-notification-form 
 				(createNotificationEmmiter)="makeNotification({title: title, content: content})" 
 				(titleEmitter)="setTitle($event)"
 				(contentEmitter)="setContent($event)"
-				class="w-[25rem]"></create-notification-form>
+				class="md:w-[25rem]"></create-notification-form>
 				<app-preview-mockup	[title]="title" [content]="content" ></app-preview-mockup>
 			</section>
 		</main>

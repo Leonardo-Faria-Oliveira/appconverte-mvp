@@ -60,8 +60,8 @@ import { BaseForm } from '../../../models/base-form.abstract';
                         </ng-container>
 
                         <base-button 
-                        [isDisabled]="isButtonDisabled || isSubmiting"
-                        [isLoading]="isSubmiting"
+                        [isDisabled]="this.getIsButtonDisabled() || this.getIsLoading()"
+                        [isLoading]="this.getIsLoading()"
                         (clickEmitter)="OnClick()" 
                         [label]="label" 
                         routerLink="/">
@@ -73,10 +73,10 @@ import { BaseForm } from '../../../models/base-form.abstract';
         </div>
     </div>
     <app-response-tooltip
-        [errored]="errored"
-    [errorMessage]="errorMessage"
-        [success]="success"
-    [successMessage]="successMessage"
+        [errored]="this.getErrored()"
+    [errorMessage]="this.getErrorMessage()"
+        [success]="this.getSuccess()"
+    [successMessage]="this.successMessage"
     ></app-response-tooltip>
   `,
 })
@@ -87,11 +87,11 @@ export class Register extends BaseForm {
         super();
     }
 
-	email: string = '';
-	name: string = '';
-	companyName: string = '';
-    companyMedia: File | null = null;
-  	password: string = '';
+	public email: string = '';
+	public name: string = '';
+	public companyName: string = '';
+    public companyMedia: File | null = null;
+  	public password: string = '';
 
     public currentStep: number = 1;
 
@@ -115,24 +115,12 @@ export class Register extends BaseForm {
         this.companyMedia = _companyMedia
     }
 
-    public setIsButtonDisabled(_isButtonDisabled: boolean) {
-        this.isButtonDisabled = _isButtonDisabled
-    }
-
-    public setErrored(_errored: boolean) {
-        this.errored = _errored;
-    }
-
-    public setErrorMessage(_errorMessage: string) {
-        this.errorMessage = _errorMessage;
-    }
-
     public setPassword(_password: string){
         this.password = _password;
     }
 
     public nextStep(){
-        this.isButtonDisabled = true;
+        this.setIsButtonDisabled(true);
         this.currentStep++;
     }
 
@@ -154,7 +142,7 @@ export class Register extends BaseForm {
 
             try{
 
-                this.isSubmiting = true;
+                this.setIsLoading(true);
                 const user = {
                     email: this.email,
                     name: this.name,
@@ -165,14 +153,14 @@ export class Register extends BaseForm {
 
                 await this._service.register(user)
 
-                this.success = true;
+                this.setSuccess(true);
 
                 setTimeout(() => {
-                    this.success = false;
+                    this.setSuccess(false);
                 }, 1000);
 
                 setTimeout(() => {
-                    this.isSubmiting = false;
+                    this.setIsLoading(false);
                     this.router.navigate(['/']);       
                 }, 1500);
 
@@ -187,7 +175,7 @@ export class Register extends BaseForm {
                 }
 
                 setTimeout(() => {
-                    this.isSubmiting = false;
+                    this.setIsLoading(false);
                 }, 1500);
                 
             }finally{

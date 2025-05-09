@@ -24,9 +24,9 @@ import { AuthService } from '../../services/auth/auth.service';
  
         <div class="layout-topbar-actions">
             <div class="layout-config-menu">
-                <button type="button" class="layout-topbar-action" (click)="toggleDarkMode()">
+                <!-- <button type="button" class="layout-topbar-action" (click)="toggleDarkMode()">
                     <i [ngClass]="{ 'pi ': true, 'pi-moon': layoutService.isDarkTheme(), 'pi-sun': !layoutService.isDarkTheme() }"></i>
-                </button>
+                </button> -->
                
             </div>
 
@@ -58,7 +58,7 @@ import { AuthService } from '../../services/auth/auth.service';
                                     Suporte
                                 </a>
                             </li>
-                            <li class="cursor-pointer text-lg py-2 px-4 hover:bg-slate-100" (click)="logout()">
+                            <li class="cursor-pointer text-lg py-2 px-4 hover:bg-slate-100 dark:hover:bg-[#27272a]"  (click)="logout()">
                                 <i class="pi pi-sign-out mr-2"></i>
                                 Sair
                             </li>

@@ -7,7 +7,7 @@ import { Component, Input } from '@angular/core';
 	<div class="main-preview-container" >
 		<div class="preview-container" >
 			<img class="preview-mockup" [src]="mockup" alt="cellphone-mockup" />
-			<div class="preview-notification">
+			<div class="preview-notification  min-w-[12rem] max-w-[52%] py-[8px] px-[10px] md:py-[10px] md:px-[12px] w-full md:max-w-[23rem]">
 				<img class="media" [src]="media" alt="notification-media"/>
 				<div class="content">
 					<h5 class="title">{{title}}</h5>
