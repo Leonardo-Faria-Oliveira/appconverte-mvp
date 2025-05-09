@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import { environment } from '../../../../env';
+import { RequestError } from '../../models/error/request.error';
 
 @Injectable({
     providedIn: 'root'
@@ -27,8 +28,8 @@ export class HttpClient {
         const response = await this.axiosInstance.post<T>(path, body);
 
         if (response.status !== 200) {
-            console.log(response);
-            throw new Error(`Erro ao enviar dados`);
+            console.log("response");
+            throw new RequestError(`Erro ao enviar dados`);
         }
 
         return response;

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -7,6 +7,8 @@ import { TextInputComponent } from '../../../components/form/text-input/text-inp
 import { TextareaInputComponent } from '../../../components/form/textarea-input/textarea-input.component';
 import { ButtonComponent } from "../../../components/button/button.component";
 import { Notification } from '../../../../models/notification';
+import { Base } from 'primeng/base';
+import { BaseForm } from '../../../../models/base-form.abstract';
 
 @Component({
 	selector: 'create-notification-form',
@@ -35,17 +37,23 @@ import { Notification } from '../../../../models/notification';
 				</div>
 
 				<div>
-					<base-button (clickEmitter)="OnClick()" ></base-button>
+					<base-button (clickEmitter)="Submit()"  
+					[isLoading]="this.isLoading"
+					[isDisabled]="this.isButtonDisabled || this.isLoading"
+					></base-button>
 				</div>
 			</div>
 		</form>
 		`,
 })
 export class CreateNotificationFormComponent {
-
-
+	
 	public title: string ='';
 	public content: string = '';
+
+	@Input() public isLoading: boolean = false;
+	@Input() public isButtonDisabled: boolean = false;
+
 
 	@Output() public createNotificationEmmiter = new EventEmitter<Notification>();
 	@Output() public titleEmitter = new EventEmitter<string>();
@@ -62,12 +70,14 @@ export class CreateNotificationFormComponent {
 		this.contentEmitter.emit(this.content)
 	}
 
-	OnClick(){
+	Submit(){
 		const notification: Notification = {
 			title: this.title,
 			content: this.content,
 		}
 		this.createNotificationEmmiter.emit(notification)
 	}
+
+	
 
 }

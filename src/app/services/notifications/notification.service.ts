@@ -16,7 +16,6 @@ export class NotificationService implements INotificationService {
   sendNotification: (notification: Notification) => Promise<void>= async(notification) => {
 
     const response = await this.client.post('/messages/send', JSON.stringify(notification)) as HttpResponse;
-    
 
   };
 

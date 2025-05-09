@@ -1,7 +1,7 @@
 export abstract class BaseForm {
 
     private errored: boolean = false;
-    public errorMessage: string = '';
+    public errorMessage: string = 'Houve um erro, tente novamente mais tarde ou entre em contato com o suporte.';
 
     private success: boolean = false;
     public abstract successMessage: string;
