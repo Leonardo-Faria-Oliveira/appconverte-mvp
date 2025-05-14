@@ -56,7 +56,7 @@ export interface NotificationViewModel {
 
 
 export class NotificationsPaginationComponent {
-	notifications!: NotificationViewModel[];
+	notifications: NotificationViewModel[] = [];
 	constructor(private notificationService: NotificationService) {}
 
 	ngOnInit() {

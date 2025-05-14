@@ -1,66 +1,69 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { InsightsCardComponent } from "../../../components/cards/insights-card/insights-card.component";
+import { NotificationService } from '../../../../services/notifications/notification.service';
 
 @Component({
     standalone: true,
     selector: 'app-stats-widget',
-    imports: [CommonModule],
+    imports: [CommonModule, InsightsCardComponent],
     template: `
-                <div class="col-span-12 lg:col-span-6 xl:col-span-3">
-                    <div class="card mb-0">
-                        <div class="flex justify-between mb-4">
-                            <div>
-                                <span class="block text-muted-color font-medium mb-4">Enviadas</span>
-                                <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">152</div>
-                            </div>
-                            <div class="flex items-center justify-center bg-blue-100 dark:bg-blue-400/10 rounded-border" style="width: 2.5rem; height: 2.5rem">
-                                <i class="pi pi-check text-blue-500 !text-xl"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-span-12 lg:col-span-6 xl:col-span-3">
-                    <div class="card mb-0">
-                        <div class="flex justify-between mb-4">
-                            <div>
-                                <span class="block text-muted-color font-medium mb-4">Abertas</span>
-                                <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">152</div>
-                            </div>
-                            <div class="flex items-center justify-center bg-green-100 dark:bg-green-400/10 rounded-border" style="width: 2.5rem; height: 2.5rem">
-                                <span class="text-green-500" style="position: relative; display: inline-block;">
-                                    <i class="pi pi-check" style="position: absolute; left: 0;"></i>
-                                    <i class="pi pi-check" style="margin-left: 5px; margin-top:2px; overflow:hidden;"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-span-12 lg:col-span-6 xl:col-span-3">
-                    <div class="card mb-0">
-                        <div class="flex justify-between mb-4">
-                            <div>
-                                <span class="block text-muted-color font-medium mb-4">Falharam</span>
-                                <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">2</div>
-                            </div>
-                            <div class="flex items-center justify-center bg-red-100 dark:bg-red-400/10 rounded-border" style="width: 2.5rem; height: 2.5rem">
-                                <i class="pi pi-times text-red-500 !text-xl"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-span-12 lg:col-span-6 xl:col-span-3">
-                    <div class="card mb-0">
-                        <div class="flex justify-between mb-4">
-                            <div>
-                                <span class="block text-muted-color font-medium mb-4">Clientes</span>
-                                <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">200</div>
-                            </div>
-                            <div class="flex items-center justify-center bg-cyan-100 dark:bg-cyan-400/10 rounded-border" style="width: 2.5rem; height: 2.5rem">
-                                <i class="pi pi-users text-cyan-500 !text-xl"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `,
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
+        <insights-card
+        title="Enviadas"
+        [value]="sent"
+        icon="pi pi-check"
+        iconColor="text-blue-500"
+        bgColor="bg-blue-100 dark:bg-blue-400/10"></insights-card>
+
+        <insights-card
+        title="Abertas"
+        [value]="opened"
+        icon="pi pi-check"
+        iconColor="text-green-500"
+        bgColor="bg-green-100 dark:bg-green-400/10"></insights-card>
+
+        <insights-card
+        title="Falharam"
+        [value]="failed"
+        icon="pi pi-times"
+        iconColor="text-red-500"
+        bgColor="bg-red-100 dark:bg-red-400/10"></insights-card>
+    </div>
+
+    
+    `,
+    styles: [`
+        div {
+            transition: all 0.3s ease-in-out;
+        }
+    `]
 })
-export class StatsWidget { }
+export class StatsWidget {
+
+    @Input() sent: number = 0;
+    @Input() opened: number = 0;
+    @Input() failed: number = 0;
+
+    constructor(private notificationService: NotificationService) {}
+
+    setSent(value: number): void {
+        this.sent = value;
+    }
+
+    setOpened(value: number): void {
+        this.opened = value;
+    }
+
+    setFailed(value: number): void {
+        this.failed = value;
+    }
+
+    ngOnInit() {
+        this.notificationService.getNotificationStats().then((data) => {
+            this.setSent(data.sent);
+            this.setOpened(data.opened);
+            this.setFailed(data.failed);
+        });
+    }
+}

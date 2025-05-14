@@ -1,53 +1,68 @@
 import { Injectable } from '@angular/core';
-import { Notification } from '../../models/notification';
+import { Notification, NotificationStats } from '../../models/notification';
 import { INotificationService } from './notification.interface';
 import { HttpClient } from '../httpClient/httpClient';
 import { HttpResponse } from '../httpClient/httpResponse';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root'
 })
 export class NotificationService implements INotificationService {
 
-  constructor(private client: HttpClient) {}
+	constructor(private client: HttpClient) { }
 
-  deleteNotification: (notificationId: string) => Promise<void>= async() => {};
+	deleteNotification: (notificationId: string) => Promise<void> = async () => { };
 
-  sendNotification: (notification: Notification) => Promise<void>= async(notification) => {
+	sendNotification: (notification: Notification) => Promise<void> = async (notification) => {
 
-    const response = await this.client.post('/messages/send', JSON.stringify(notification)) as HttpResponse;
+		const response = await this.client.post('/messages/send', JSON.stringify(notification)) as HttpResponse;
 
-  };
+	};
 
-  async getNotifications(): Promise<Notification[]> {
+	async getNotifications(): Promise<Notification[]> {
 
-    return new Promise((resolve) => {
-      const notifications: Notification[] = [
-        {
-          id: '1',
-          title: 'Promoção de fim de ano chegando',
-          content: 'Aproveite nossas ofertas especiais para o final do ano!',
-          status: 'sent',
-          date: new Date('2023-12-01')
-        },
-        {
-          id: '2',
-          title: 'Novo recurso disponível!',
-          content: 'Confira nosso novo recurso incrível que acabamos de lançar.',
-          status: 'success',
-          date: new Date('2023-11-15')
-        },
-        {
-          id: '3',
-          title: 'Manutenção programada',
-          content: 'Haverá uma manutenção programada no dia 20 de novembro.',
-          status: 'error',
-          date: new Date('2023-11-10')
-        }
-      ];
-      resolve(notifications);
-    });
+		const response = await this.client.get('/messages/insights') as HttpResponse;
+		return response.data as Notification[] ?? [];
 
-  }
+		return new Promise((resolve) => {
+			const notifications: Notification[] = [
+				{
+					id: '1',
+					title: 'Promoção de fim de ano chegando',
+					content: 'Aproveite nossas ofertas especiais para o final do ano!',
+					status: 'sent',
+					date: new Date('2023-12-01')
+				},
+				{
+					id: '2',
+					title: 'Novo recurso disponível!',
+					content: 'Confira nosso novo recurso incrível que acabamos de lançar.',
+					status: 'success',
+					date: new Date('2023-11-15')
+				},
+				{
+					id: '3',
+					title: 'Manutenção programada',
+					content: 'Haverá uma manutenção programada no dia 20 de novembro.',
+					status: 'error',
+					date: new Date('2023-11-10')
+				}
+			];
+			resolve(notifications);
+		});
+
+	}
+
+	getNotificationStats: () => Promise<NotificationStats> = async() => {
+		
+		const response = await this.client.get('/messages/stats') as HttpResponse;
+		return response.data as NotificationStats ?? 
+		{
+			sent: 0,
+			opened: 0,
+			failed: 0
+		};
+		
+	};
 
 }

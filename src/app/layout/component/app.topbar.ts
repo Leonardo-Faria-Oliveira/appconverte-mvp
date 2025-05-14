@@ -47,13 +47,13 @@ import { AuthService } from '../../services/auth/auth.service';
                     <p-popover #profileOptions id="overlay_profile" [style]="{ width: '250px'  }">
                         <ul class="flex flex-col ">
                             <li class=" cursor-pointer text-lg w-full py-2 px-4 h-full hover:bg-slate-100">
-                                <a href="#edit">
+                                <a href="/user/edit">
                                     <i class="pi pi-user mr-2"></i>
                                     Editar dados
                                 </a>
                             </li>
                             <li class="cursor-pointer text-lg py-2 px-4 hover:bg-slate-100">
-                                <a href="#suporte">
+                                <a href="/support">
                                     <i class="pi pi-cog mr-2"></i>
                                     Suporte
                                 </a>

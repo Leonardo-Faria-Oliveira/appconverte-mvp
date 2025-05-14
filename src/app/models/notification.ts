@@ -7,3 +7,9 @@ export interface Notification {
   status?: NotificationStatus;
   date?: Date;
 }
+
+export interface NotificationStats{
+  opened: number;
+  failed: number;
+  sent: number;
+}
